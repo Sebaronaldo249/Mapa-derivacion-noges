@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Derivación No GES - SSMS 2024</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles to enhance Tailwind */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f9ff; /* Very light blue background */
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23dbeafe' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 20v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM6 10v-4h-2v4H0v2h4v4h2v-4h4v-2H6zm0 20v-4h-2v4H0v2h4v4h2v-4h4v-2H6zm0 20v-4h-2v4H0v2h4v4h2v-4h4v-2H6zM36 0v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM6 0v-4h-2v4H0v2h4v4h2v-4h4v-2H6zM36 10v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM16 20v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM16 30v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM16 40v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM16 50v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM46 10v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM46 20v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM46 30v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM46 40v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM46 50v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM26 0v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM26 10v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM26 20v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM26 30v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM26 40v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM26 50v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM56 0v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM56 10v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM56 20v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM56 30v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM56 40v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM56 50v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-attachment: fixed;
+            color: #334155; /* Slate 700 */
+            line-height: 1.7;
+        }
+        h1, h2, h3, h4 {
+            font-weight: 800; /* Extra bold for headings */
+            color: #0c4a6e; /* Darker blue for headings */
+        }
+        .header-gradient {
+            background: linear-gradient(to right, #1e3a8a, #3b82f6); /* Darker blue to lighter blue */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section-separator {
+            border-top: 2px solid #93c5fd; /* Blue 300 for a more distinct line */
+            margin-top: 3.5rem;
+            margin-bottom: 3.5rem;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 1.25rem; /* rounded-2xl */
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.1), 0 5px 10px -5px rgba(0, 0, 0, 0.04); /* Deeper shadow */
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border: 1px solid #e2e8f0; /* Subtle border */
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 35px -8px rgba(0, 0, 0, 0.15), 0 15px 15px -8px rgba(0, 0, 0, 0.06);
+        }
+        /* Specific card background colors */
+        .card-blue-light {
+            background-color: #e0f7fa; /* Light cyan for Barros Luco */
+        }
+        .card-red-light {
+            background-color: #ffebee; /* Light red for El Pino */
+        }
+        .card-orange-light {
+            background-color: #fff3e0; /* Light orange for Parroquial de San Bernardo */
+        }
+        .card-green-light {
+            background-color: #e8f5e9; /* Light green for San Luis de Buin y Paine */
+        }
+        /* FAQ specific colors */
+        .card-faq-green {
+            background-color: #e6ffe6; /* Lighter green for FAQ */
+        }
+        .card-faq-orange {
+            background-color: #fff9e6; /* Lighter orange for FAQ */
+        }
+
+        ul {
+            list-style-type: disc;
+            margin-left: 1.5rem; /* ml-6 */
+        }
+        ol {
+            list-style-type: decimal;
+            margin-left: 1.5rem; /* ml-6 */
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+        .accordion-header {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #cbd5e1; /* Slate 300 */
+        }
+        .accordion-header:hover {
+            color: #1d4ed8; /* Blue 700 on hover */
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s ease-in-out; /* Increased duration for visibility */
+        }
+        .accordion-content.active {
+            max-height: 2000px; /* Increased max-height to accommodate more content */
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 lg:p-8">
+    <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-2xl p-6 sm:p-8 lg:p-10">
+        <!-- Header Section -->
+        <header class="text-center mb-12">
+            <h1 class="text-5xl sm:text-6xl font-extrabold mb-3">
+                <i class="fas fa-hospital-alt mr-4 text-blue-600"></i> <span class="header-gradient">Mapa de Derivación No GES</span>
+            </h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-blue-700">
+                Servicio de Salud Metropolitano Sur 2024
+            </h2>
+            <p class="text-gray-700 mt-6 text-lg sm:text-xl leading-relaxed">
+                Este portal es tu guía esencial para comprender las derivaciones médicas en el <strong class="text-blue-800">Servicio de Salud Metropolitano Sur (SSMS)</strong>. Descubre tu <strong class="text-blue-800">Hospital Base</strong> según tu <strong class="text-blue-800">CESFAM</strong> y las especialidades disponibles. Ten en cuenta que existen <strong class="text-blue-800">excepciones importantes</strong> por patología, edad o la disponibilidad de servicios específicos.
+            </p>
+        </header>
+
+        <hr class="section-separator">
+
+        <!-- How it Works Section -->
+        <section class="mb-12">
+            <h3 class="text-3xl sm:text-4xl font-bold text-blue-800 mb-6 flex items-center">
+                <i class="fas fa-map-marked-alt mr-3 text-blue-600"></i> ¿Cómo funciona el Mapa de Derivación?
+            </h3>
+            <p class="text-gray-700 text-lg sm:text-xl mb-6">
+                El mapa de derivación no GES establece la red de referencia hospitalaria según el CESFAM en el que cada persona está inscrita. Esta red determina a qué Hospital Base será derivada la atención cuando se requiera una evaluación o tratamiento especializado.
+            </p>
+            <p class="text-gray-700 text-lg sm:text-xl mb-6">
+                Sin embargo, pueden existir excepciones al flujo habitual de derivación. Estas ocurren cuando el hospital base no cuenta con la especialidad médica, el equipo profesional, la capacidad resolutiva necesaria para abordar un caso específico, o criterios de edad. En estos casos, se gestiona la derivación a otro hospital que sí pueda brindar la atención requerida.
+            </p>
+            <p class="text-gray-700 text-lg sm:text-xl mb-6">
+                Todas las derivaciones se realizan a través de una Solicitud de Interconsulta (SIC), la cual debe ser ingresada por el CESFAM correspondiente o por otro hospital, si se requiere trasladar a la persona de una especialidad a otra que no esté disponible en su hospital base.
+            </p>
+
+            <h4 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-3">Redes Estratégicas del Servicio de Salud Metropolitano Sur</h4>
+            <p class="text-gray-700 text-lg sm:text-xl mb-3">
+                El Servicio de Salud Metropolitano Sur está organizado en cuatro redes estratégicas, cada una con su respectivo Hospital Base:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 text-lg sm:text-xl mb-4">
+                <li><strong class="text-blue-800">Red Sur Central:</strong> Hospital Barros Luco Trudeau</li>
+                <li><strong class="text-blue-800">Red Sur Oriente:</strong> Hospital El Pino</li>
+                <li><strong class="text-blue-800">Red Sur Poniente:</strong> Hospital Parroquial de San Bernardo</li>
+                <li><strong class="text-blue-800">Red Sur Sur:</strong> Hospital San Luis de Buin y Paine</li>
+            </ul>
+            <p class="text-gray-700 text-lg sm:text-xl">
+                A continuación, podrás consultar qué hospital base está asignado a cada CESFAM, así como las especialidades disponibles en cada establecimiento.
+            </p>
+        </section>
+
+        <hr class="section-separator">
+
+        <!-- Hospital Sections (Accordion Style) -->
+        <div id="hospitalList">
+            <!-- Hospital Barros Luco Trudeau Section -->
+            <section class="card card-blue-light">
+                <div class="accordion-header" onclick="toggleAccordion('barrosLucoContent')">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-blue-700 flex items-center">
+                        <i class="fas fa-hospital mr-3 text-blue-600"></i> Hospital Barros Luco Trudeau
+                    </h3>
+                    <i class="fas fa-chevron-down text-blue-600"></i>
+                </div>
+                <div id="barrosLucoContent" class="accordion-content">
+                    <h4 class="text-xl sm:text-2xl font-semibold text-gray-800 mt-6 mb-3">Comunas y CESFAMs asociados:</h4>
+                    <ul class="list-disc list-inside text-gray-700 mb-4">
+                        <li><strong class="text-blue-700">San Joaquín:</strong> CESFAM Arturo Baeza Goñi, CESFAM Sta. Teresa de los Andes, CESFAM San Joaquín</li>
+                        <li><strong class="text-blue-700">La Cisterna:</strong> CESFAM Eduardo Frei, CESFAM Santa Anselma</li>
+                        <li><strong class="text-blue-700">Pedro Aguirre Cerda:</strong> CESFAM Padre Pierre Dubois, CESFAM Edgardo Enríquez Frödden, CESFAM Amador Neghme, CESFAM Lo Valledor Norte</li>
+                        <li><strong class="text-blue-700">Lo Espejo:</strong> CESFAM Clara Estrella, CESFAM Julio Acuña, CESFAM Mariela Salgado, CESFAM Pueblo Lo Espejo</li>
+                        <li><strong class="text-blue-700">San Miguel:</strong> CESFAM Recreo, CESFAM Barros Luco</li>
+                        <li><strong class="text-blue-700">La Granja:</strong> CESFAM Padre Esteban Gumucio</li>
+                    </ul>
+                    <h4 class="text-xl sm:text-2xl font-semibold text-gray-800 mt-6 mb-3">Especialidades disponibles:</h4>
+                    <ul class="list-disc list-inside text-gray-700 columns-1 sm:columns-2 lg:columns-3">
+                        <li>Cardiología</li>
+                        <li>Cirugía Cardiovascular</li>
+                        <li>Cirugía de Cabeza, Cuello, Máxilo Facial</li>
+                        <li>Cirugía Digestivo Alto</li>
+                        <li>Cirugía General Adulto</li>
+                        <li>Cirugía Plástica y Reparadora Adulto</li>
+                        <li>Cirugía Tórax</li>
+                        <li>Cirugía Vascular</li>
+                        <li>Cirugía Digestivo Bajo</li>
+                        <li>Dermatología</li>
+                        <li>Endocrinología</li>
+                        <li>Broncopulmonar</li>
+                        <li>Gastroenterología</li>
+                        <li>Ginecología</li>
+                        <li>Hematología</li>
+                        <li>Infectología</li>
+                        <li>Inmunología</li>
+                        <li>Medicina Interna</li>
+                        <li>Nefrología</li>
+                        <li>Neurocirugía</li>
+                        <li>Neurología</li>
+                        <li>Obstetricia</li>
+                        <li>Oftalmología</li>
+                        <li>Otorrinolaringología</li>
+                        <li>Psiquiatría</li>
+                        <li>Reumatología</li>
+                        <li>Traumatología y Ortopedia Adulto</li>
+                        <li>Urología</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Hospital El Pino Section -->
+            <section class="card card-red-light">
+                <div class="accordion-header" onclick="toggleAccordion('elPinoContent')">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-blue-700 flex items-center">
+                        <i class="fas fa-hospital-alt mr-3 text-red-600"></i> Hospital El Pino
+                    </h3>
+                    <i class="fas fa-chevron-down text-red-600"></i>
+                </div>
+                <div id="elPinoContent" class="accordion-content">
+                    <h4 class="text-xl sm:text-2xl font-semibold text-gray-800 mt-6 mb-3">Comunas y CESFAMs asociados:</h4>
+                    <ul class="list-disc list-inside text-gray-700 mb-4">
+                        <li><strong class="text-blue-700">El Bosque:</strong> CESFAM Dr. Mario Salcedo, CESFAM Dr. Carlos Lorca, CESFAM Cóndores de Chile, CESFAM Dra. Haydee López Cassou, CESFAM Orlando Letelier</li>
+                        <li><strong class="text-blue-700">San Bernardo:</strong> CESFAM Confraternidad, CESFAM Juan Pablo II, CESFAM Raúl Brañez, CESFAM El Manzano</li>
+                    </ul>
+                    <h4 class="text-xl sm:text-2xl font-semibold text-gray-800 mt-6 mb-3">Especialidades disponibles:</h4>
+                    <ul class="list-disc list-inside text-gray-700 columns-1 sm:columns-2 lg:columns-3">
+                        <li>Cirugía Adulto</li>
+                        <li>Dermatología</li>
+                        <li>Broncopulmonar Infantil</li>
+                        <li>Gastroenterología</li>
+                        <li>Ginecología</li>
+                        <li>Medicina Interna</li>
+                        <li>Neurología</li>
+                        <li>Obstetricia</li>
+                        <li>Oftalmología</li>
+                        <li>Pediatría</li>
+                        <li>Psiquiatría</li>
+                        <li>Psiquiatría Infantil</li>
+                        <li>Traumatología</li>
+                        <li>Urología</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Hospital Parroquial de San Bernardo Section -->
+            <section class="card card-orange-light">
+                <div class="accordion-header" onclick="toggleAccordion('parroquialContent')">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-blue-700 flex items-center">
+                        <i class="fas fa-hospital mr-3 text-orange-600"></i> Hospital Parroquial de San Bernardo
+                    </h3>
+                    <i class="fas fa-chevron-down text-orange-600"></i>
+                </div>
+                <div id="parroquialContent" class="accordion-content">
+                    <h4 class="text-xl sm:text-2xl font-semibold text-gray-800 mt-6 mb-3">Comunas y CESFAMs asociados:</h4>
+                    <ul class="list-disc list-inside text-gray-700 mb-4">
+                        <li><strong class="text-blue-700">El Bosque:</strong> CESFAM Santa Lucía</li>
+                        <li><strong class="text-blue-700">Calera de Tango:</strong> CESFAM Calera de Tango, CESFAM Los Bajos de San Agustín</li>
+                        <li><strong class="text-blue-700">San Bernardo:</strong> CESFAM Carol Urzúa, CESFAM Juan Alsina, Raúl Cuevas</li>
+                    </ul>
+                    <h4 class="text-xl sm:text-2xl font-semibold text-gray-800 mt-6 mb-3">Especialidades disponibles:</h4>
+                    <ul class="list-disc list-inside text-gray-700 columns-1 sm:columns-2 lg:columns-3">
+                        <li>Cardiología</li>
+                        <li>Cirugía Adulto</li>
+                        <li>Cirugía Mamas</li>
+                        <li>Ginecología</li>
+                        <li>Medicina Interna</li>
+                        <li>Obstetricia / ARO</li>
+                        <li>Traumatología</li>
+                        <li>Urología</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Hospital San Luis de Buin y Paine Section -->
+            <section class="card card-green-light">
+                <div class="accordion-header" onclick="toggleAccordion('sanLuisContent')">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-blue-700 flex items-center">
+                        <i class="fas fa-hospital mr-3 text-green-600"></i> Hospital San Luis de Buin y Paine
+                    </h3>
+                    <i class="fas fa-chevron-down text-green-600"></i>
+                </div>
+                <div id="sanLuisContent" class="accordion-content">
+                    <h4 class="text-xl sm:text-2xl font-semibold text-gray-800 mt-6 mb-3">Comunas y CESFAMs asociados:</h4>
+                    <ul class="list-disc list-inside text-gray-700 mb-4">
+                        <li><strong class="text-blue-700">Buin:</strong> CESFAM Alto Jahuel, CESFAM Dr. Héctor García, CESFAM Maipo</li>
+                        <li><strong class="text-blue-700">Paine:</strong> CESFAM Dr. Miguel Ángel Solar, CESFAM Raúl Moya</li>
+                    </ul>
+                    <h4 class="text-xl sm:text-2xl font-semibold text-gray-800 mt-6 mb-3">Especialidades disponibles:</h4>
+                    <ul class="list-disc list-inside text-gray-700 columns-1 sm:columns-2 lg:columns-3">
+                        <li>Cirugía General</li>
+                        <li>Dermatología</li>
+                        <li>Ginecología</li>
+                        <li>Medicina Interna</li>
+                        <li>Obstetricia</li>
+                        <li>Otorrinolaringología (Compra Servicios Pacientes entre 60 y 64 años)</li>
+                        <li>Pediatría</li>
+                        <li>Psiquiatría</li>
+                        <li>Psiquiatría Pediátrica</li>
+                        <li>Traumatología y Ortopedia Adulto</li>
+                        <li>Urología</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <hr class="section-separator">
+
+        <!-- Exceptions Section -->
+        <section class="mb-12">
+            <h3 class="text-3xl sm:text-4xl font-bold text-blue-800 mb-6 flex items-center">
+                <i class="fas fa-exclamation-triangle mr-3 text-red-600"></i> Excepciones y Consideraciones Especiales
+            </h3>
+            <!-- The paragraph requested to be removed was here -->
+
+            <div class="card bg-blue-50">
+                <div class="accordion-header" onclick="toggleAccordion('criteriosDerivacionContent')">
+                    <h4 class="text-xl sm:text-2xl font-semibold text-blue-800 flex items-center">
+                        <i class="fas fa-info-circle mr-2 text-blue-600"></i> Criterios para la derivación a otro Hospital
+                    </h4>
+                    <i class="fas fa-chevron-down text-blue-600"></i>
+                </div>
+                <div id="criteriosDerivacionContent" class="accordion-content">
+                    <ul class="list-disc list-inside text-gray-700 mt-6 mb-6">
+                        <li><strong class="text-blue-700">Cirugía Vascular (Pacientes > 15 años):</strong> Si perteneces a los CESFAM o CECOSF del Hospital El Pino (CECOSF Las Hortensias, CECOSF Los Sauces, CESFAM Cóndores de Chile, CESFAM Cofraternidad, CESFAM Carlos Lorca, CESFAM Mario Salcedo, CESFAM Haydee López, CESFAM El Manzano, CESFAM Juan Pablo II, CESFAM Raúl Brañez F.) y requieres ser atendido por la especialidad de Cirugía Vascular, serás derivado al Hospital Barros Luco Trudeau, ya que el Hospital El Pino no cuenta con esta especialidad.</li>
+                        <li><strong class="text-blue-700">Endocrinología (CIE-10: Z.60.8, Pacientes > 18 años):</strong> Si tu diagnóstico es "Problemas relacionados con el Ambiente Social" (Z.60.8) y requieres ser atendido por la especialidad de Endocrinología, y eres mayor de 18 años, serás derivado al Hospital Barros Luco Trudeau, independientemente de tu CESFAM, CECOSF, PSR o COSAM.</li>
+                        <li><strong class="text-blue-700">Ginecología (CIE-10: N97, Pacientes > 15 años):</strong> Para el diagnóstico de "Infertilidad" (N97) que corresponde a la especialidad de Ginecología, si eres mayor de 15 años y perteneces a CECOFS Santa Laura, CESFAM Calera de Tango, CESFAM Carol Urzúa, CESFAM Los Bajos de San Agustín, CESFAM Padre Joan Alsina, CESFAM Raúl Cuevas, CESFAM Santa Laura, o PSR Santa Inés, serás derivado al Hospital Barros Luco Trudeau, ya que esta especialidad no está disponible para este diagnóstico en el Hospital El Pino y Hospital Parroquial de San Bernardo.</li>
+                        <li><strong class="text-blue-700">Neurocirugía (CIE-10: M41.1, Pacientes > 18 años):</strong> Si tu diagnóstico es "Escoliosis" (M41.1), y eres mayor de 18 años, serás derivado al Hospital Barros Luco Trudeau, sin importar tu CESFAM, CECOSF, PSR o COSAM.</li>
+                        <li><strong class="text-blue-700">Psiquiatría Infantil (CIE-10: Z.60.8, Pacientes < 18 años):</strong> Si tu diagnóstico es "Problemas relacionados con el Ambiente Social" (Z.60.8) y requieres ser atendido por la especialidad de Psiquiatría Infantil, siendo menor de 18 años, serás derivado al Hospital El Pino, independientemente de tu CESFAM, CECOSF, PSR o COSAM.</li>
+                        <li><strong class="text-blue-700">Psiquiatría Infantil / Endocrinología (CIE-10: F64.0 y Z.60.8):</strong> Si tienes diagnósticos de "Trastorno de la identidad Sexual" (F64.0) y/o "Problemas relacionados con el ambiente social" (Z.60.8), y requieres ser atendido por la especialidad de Psiquiatría Infantil o Endocrinología (si eres mayor de 18 años), no está disponible en el Hospital El Pino, serás derivado al Hospital Barros Luco Trudeau.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card bg-yellow-50">
+                <div class="accordion-header" onclick="toggleAccordion('derivacionesHospitalesContent')">
+                    <h4 class="text-xl sm:text-2xl font-semibold text-yellow-800 flex items-center">
+                        <i class="fas fa-share-square mr-2 text-yellow-600"></i> Derivaciones a Hospital Dr. Lucio Córdova y Hospital Exequiel González Cortés
+                    </h4>
+                    <i class="fas fa-chevron-down text-yellow-600"></i>
+                </div>
+                <div id="derivacionesHospitalesContent" class="accordion-content">
+                    <ul class="list-disc list-inside text-gray-700 mt-6">
+                        <li>Si tu diagnóstico <strong class="text-blue-700">o sospecha diagnóstica</strong> corresponde a una <strong class="text-blue-700">enfermedad infecciosa</strong>, puedes ser derivado al <strong class="text-blue-700">Hospital Dr. Lucio Córdova</strong>.</li>
+                        <li><strong class="text-blue-700">Pacientes Menores de 15 años:</strong> En general, los pacientes menores de 15 años son derivados al <strong class="text-blue-700">Hospital Exequiel González Cortes</strong>, a menos que las consideraciones antes mencionadas indiquen una derivación al Barros Luco Trudeau para pacientes mayores de 18 años. En estos casos, los de 17 años o menos corresponderían al <strong class="text-blue-700">Hospital Exequiel González Cortés</strong>.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-500 text-sm mt-8 pt-4 border-t border-gray-300">
+            &copy; 2024 Servicio de Salud Metropolitano Sur. Todos los derechos reservados.
+        </footer>
+    </div>
+
+    <script>
+        // JavaScript for Accordion functionality
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const header = content.previousElementSibling; // Get the header element
+            const icon = header.querySelector('.fas'); // Get the icon within the header
+
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                // Close all other open accordions
+                document.querySelectorAll('.accordion-content.active').forEach(item => {
+                    item.classList.remove('active');
+                    item.previousElementSibling.querySelector('.fas').classList.remove('fa-chevron-up');
+                    item.previousElementSibling.querySelector('.fas').classList.add('fa-chevron-down');
+                });
+                // Open the clicked accordion
+                content.classList.add('active');
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+
+        // Initial state: all accordions closed
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.accordion-content').forEach(content => {
+                content.classList.remove('active'); // Ensure all are closed on load
+            });
+        });
+    </script>
+</body>
+</html>
